@@ -1,0 +1,16 @@
+{
+	"/": [
+		"src/routes/+layout.js"
+	],
+	"/draft": [
+		"src/routes/draft/+page.js",
+		"src/routes/+layout.js"
+	],
+	"/preview": [
+		"src/routes/preview/+page.js",
+		"src/routes/+layout.js"
+	],
+	"/test": [
+		"src/routes/+layout.js"
+	]
+}

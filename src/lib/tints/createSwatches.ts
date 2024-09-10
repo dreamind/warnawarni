@@ -11,25 +11,41 @@ import {createDistributionValues, createHueScale, createSaturationScale} from '.
 import type {PaletteConfig} from './types'
 
 export function createSwatches(palette: PaletteConfig) {
-  const {value, valueStop} = palette
+  // palette.swatches = []
+  // palette.value = '2580b5'
+  // palette.valueStop = 400
+  // palette.name = ''
+  // palette.lMin = 0
+  console.log(JSON.stringify(palette, null, 2))
+
+  let {value, valueStop} = palette
 
   // Tweaks may be passed in, otherwise use defaults
   const useLightness = palette.useLightness ?? DEFAULT_PALETTE_CONFIG.useLightness
   const h = palette.h ?? DEFAULT_PALETTE_CONFIG.h
   const s = palette.s ?? DEFAULT_PALETTE_CONFIG.s
-  const lMin = palette.lMin ?? DEFAULT_PALETTE_CONFIG.lMin
+  let lMin = palette.lMin ?? DEFAULT_PALETTE_CONFIG.lMin
   const lMax = palette.lMax ?? DEFAULT_PALETTE_CONFIG.lMax
 
   // Create hue and saturation scales based on tweaks
   const hueScale = createHueScale(h, valueStop)
   const saturationScale = createSaturationScale(s, valueStop)
-
   // Get the base hex's H/S/L values
   const {h: valueH, s: valueS, l: valueL} = hexToHSL(value)
 
   // Create lightness scales based on tweak + lightness/luminance of current value
   const lightnessValue = useLightness ? valueL : luminanceFromHex(value)
+  console.log(lMin, lMax, lightnessValue, valueStop)
   const distributionScale = createDistributionValues(lMin, lMax, lightnessValue, valueStop)
+  // console.log(JSON.stringify(hueScale, null, 2))
+  // console.log(JSON.stringify(saturationScale, null, 2))
+  console.log(
+    JSON.stringify(
+      distributionScale.map((d: any) => d.tweak),
+      null,
+      2,
+    ),
+  )
 
   const swatches = hueScale.map(({stop}, stopIndex) => {
     const newH = unsignedModulo(valueH + hueScale[stopIndex].tweak, 360)
@@ -53,6 +69,6 @@ export function createSwatches(palette: PaletteConfig) {
       l: newL,
     }
   })
-
+  console.log(swatches)
   return swatches
 }

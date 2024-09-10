@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type PaletteType } from '$lib/common'
+  import { type PaletteType } from '$lib/types'
 	import { createEventDispatcher } from 'svelte'
   import Swatch from './Swatch.svelte'
 
@@ -34,12 +34,11 @@
 	{#each palette.colors as color}
     <Swatch color={color} on:select={onselect}>
       <div class="font-sans text-xs" style="color: {color.hsl?.l < 50 ? 'white' : 'black' }">
-        <div class="font-bold">{ color.name }</div>
-        <div>{ color.code?.toUpperCase() }</div>  
+        <div class="font-bold text-center">{ color.name }</div>
+        <div class="text-center">{ color.code?.toUpperCase() }</div>  
       </div>
     </Swatch>
-	{/each}  
-  
+	{/each}    
 </div>
 
 <style>

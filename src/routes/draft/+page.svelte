@@ -1,7 +1,5 @@
 <script lang="ts">
 import "./app.css";
-import svelteLogo from './assets/svelte.svg'
-import viteLogo from '/vite.svg'
 import { colord, extend }  from 'colord'
 import Palette from '@components/Palette.svelte'
 import { Slider } from '$lib/components/ui/slider'

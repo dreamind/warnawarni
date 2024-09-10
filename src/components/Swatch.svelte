@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type ColorType } from '$lib/common'
+  import { type ColorType } from '$lib/types'
 	import { createEventDispatcher } from 'svelte'
 
   // export let id: string = '1'

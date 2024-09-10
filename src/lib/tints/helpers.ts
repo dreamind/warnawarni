@@ -11,16 +11,14 @@ export function luminanceFromRGB(r: number, g: number, b: number) {
 }
 
 export function luminanceFromHex(H: string) {
-  const { r, g, b } = hexToRGB(H)
-  return round(luminanceFromRGB(parseInt(r), parseInt(g), parseInt(b)), 2)
+  return round(luminanceFromRGB(...Object.values(hexToRGB(H))), 2)
 }
 
 // TODO: Even out this function, luminance values aren't linear/good
 export function lightnessFromHSLum(H: number, S: number, Lum: number) {
-  const vals: Record<any, any> = {}
+  const vals = {}
   for (let L = 99; L >= 0; L--) {
-    const { r, g, b } = HSLtoRGB(H, S, L);
-    vals[L] = Math.abs(Lum - luminanceFromRGB(r, g, b))
+    vals[L] = Math.abs(Lum - luminanceFromRGB(...Object.values(HSLtoRGB(H, S, L))))
   }
 
   // Run through all these and find the closest to 0
@@ -63,10 +61,7 @@ export function hexToHSL(H: string) {
   }
 
   // Convert hex to RGB first
-  let {r: rt, g: gt, b: bt} = hexToRGB(H)
-  let r = parseInt(rt) 
-  let g = parseInt(gt) 
-  let b = parseInt(bt)
+  let {r, g, b} = hexToRGB(H)
   // Then to HSL
   r /= 255
   g /= 255
@@ -140,13 +135,13 @@ export function HSLtoRGB(h: number, s: number, l: number) {
   }
 }
 
-export function HSLToHex(h: number, s: number, l: number) {
-  let {r: rn, g: gn, b: bn} = HSLtoRGB(h, s, l)
+export function HSLToHex(h, s, l) {
+  let {r, g, b} = HSLtoRGB(h, s, l)
 
   // Having obtained RGB, convert channels to hex
-  let r = rn.toString(16)
-  let g = gn.toString(16)
-  let b = bn.toString(16)
+  r = r.toString(16)
+  g = g.toString(16)
+  b = b.toString(16)
 
   // Prepend 0s, if necessary
   if (r.length === 1) r = `0${r}`
